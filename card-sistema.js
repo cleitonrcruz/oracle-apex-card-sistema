@@ -52,10 +52,24 @@
     simbolo.className = "fa " + icone;
     simbolo.setAttribute("aria-hidden", "true");
     botao.appendChild(simbolo);
+    // vai ate o inicio do card seguinte e nunca alem do fim da faixa: o Safari nao encaixa depois da rolagem suave e,
+    // com o destino passando do maximo, deixa a faixa alem do fim, so com vazio
     botao.addEventListener("click", function () {
-      var item = grade.querySelector(".pf-CardGrid-item");
-      grade.scrollBy({ left: (rtl ? -direcao : direcao) * (item ? item.getBoundingClientRect().width : grade.clientWidth),
-                       behavior: reduzMovimento.matches ? "auto" : "smooth" });
+      var maximo = grade.scrollWidth - grade.clientWidth,
+          posicao = Math.abs(grade.scrollLeft),
+          recuo = parseFloat(getComputedStyle(grade).scrollPaddingInlineStart) || 0,
+          caixa = grade.getBoundingClientRect(),
+          destinos = [].map.call(grade.querySelectorAll(":scope > .pf-CardGrid-item"), function (item) {
+            var r = item.getBoundingClientRect();
+            return Math.round((rtl ? caixa.right - r.right : r.left - caixa.left) + posicao - recuo);
+          }),
+          alvo = direcao > 0 ? destinos.filter(function (d) { return d > posicao + 1; })[0]
+                             : destinos.filter(function (d) { return d < posicao - 1; }).pop();
+      if (alvo === undefined) {
+        alvo = direcao > 0 ? maximo : 0;
+      }
+      alvo = Math.max(0, Math.min(maximo, alvo));
+      grade.scrollTo({ left: rtl ? -alvo : alvo, behavior: reduzMovimento.matches ? "auto" : "smooth" });
     });
     return botao;
   }

@@ -12,7 +12,7 @@
 
 ## O que faz
 
-- Monta os cards a partir de uma consulta SQL: uma linha, um card. Em grade, eles quebram em linhas e se ajustam à largura da região; em carrossel, formam uma faixa que rola para o lado, com encaixe por card e setas que só aparecem quando há mais cards do que cabem.
+- Monta os cards a partir de uma consulta SQL: uma linha, um card. Em grade, eles quebram em linhas e se ajustam à largura da região; em carrossel, formam uma faixa que rola para o lado, com encaixe por card e setas que só aparecem quando há mais cards do que cabem e param no último.
 - Selo de status com ponto na cor do estado e ícone na cor do token escolhido, os dois lidos das variáveis `--ut-palette-*` do tema.
 - Seleção opcional: com o rótulo de seleção preenchido, o card ganha um botão no rodapé. O clique no botão, ou no card fora dos links, marca o card, troca o texto do botão e dispara o evento `cardsistemaselecao` na região.
 - Textos com escape de HTML. Cor e estado passam por uma lista fechada: valor fora dela cai no padrão, sem virar classe.
@@ -21,7 +21,7 @@
 
 ## Requisitos
 
-<p align="justify">Oracle APEX 26.1 ou superior, num app com o Universal Theme: o card usa os Template Components Avatar e Badge do tema. O instalável foi exportado do APEX 26.1.0 e testado no 26.1.0 e no 26.1.4, com os theme styles Vita, Vita - Dark, Redwood Light e Iris. App que veio de versão antiga do APEX e não tem esses componentes no tema precisa de <b>Shared Components > Themes > Refresh Theme</b>.</p>
+<p align="justify">Oracle APEX 26.1 ou superior, num app com o Universal Theme: o card usa os Template Components Avatar e Badge do tema. O instalável foi exportado do APEX 26.1.0 e testado no 26.1.0 e no 26.1.4, com os theme styles Vita, Vita - Dark, Redwood Light e Iris. A 2.2.1 também foi testada no 26.1.5, no Safari do iPhone. App que veio de versão antiga do APEX e não tem esses componentes no tema precisa de <b>Shared Components > Themes > Refresh Theme</b>.</p>
 
 ## Instalação
 
