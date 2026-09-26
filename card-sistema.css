@@ -1,0 +1,128 @@
+/* Card de Sistema: aparencia padrao, so com variaveis do Universal Theme, para funcionar em qualquer theme style.
+   So classes, sem id nem !important: ganha das regras de elemento do tema (article, h3, p, ul), que carregam depois
+   deste arquivo. Hover e selecao usam duas classes; para sobrescrever tudo, o app prefixa com o Static ID da regiao. */
+
+.pf-CardGrid {
+  --pf-card-min: 17rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--pf-card-min)), 1fr));
+  gap: 1rem;
+}
+.pf-CardGrid-item { min-width: 0; }
+
+.pf-Card {
+  --pf-tok: var(--ut-palette-primary);
+  --pf-tok-contraste: var(--ut-palette-primary-contrast);
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  height: 100%;
+  padding: 1.25rem;
+  background: var(--ut-component-background-color);
+  border: 1px solid var(--ut-component-border-color);
+  border-radius: var(--ut-component-border-radius);
+  box-shadow: var(--ut-shadow-sm);
+}
+.pf-Card:hover,
+.pf-Card:focus-within { box-shadow: var(--ut-shadow-md); }
+@media (prefers-reduced-motion: no-preference) {
+  .pf-Card { transition: box-shadow .15s ease, transform .15s ease; }
+  .pf-Card:hover,
+  .pf-Card:focus-within { transform: translateY(-2px); }
+}
+.pf-Card--carregando { min-height: 14rem; }
+
+/* cor por token: o template so gera estas seis classes */
+.pf-Card--success { --pf-tok: var(--ut-palette-success); --pf-tok-contraste: var(--ut-palette-success-contrast); }
+.pf-Card--info    { --pf-tok: var(--ut-palette-info);    --pf-tok-contraste: var(--ut-palette-info-contrast); }
+.pf-Card--warning { --pf-tok: var(--ut-palette-warning); --pf-tok-contraste: var(--ut-palette-warning-contrast); }
+.pf-Card--danger  { --pf-tok: var(--ut-palette-danger);  --pf-tok-contraste: var(--ut-palette-danger-contrast); }
+.pf-Card--generic { --pf-tok: var(--ut-palette-generic); --pf-tok-contraste: var(--ut-palette-generic-contrast); }
+
+.pf-Card-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+/* icone na cor do token com o contraste que o proprio UT define para ela */
+.pf-Card-topo .t-Avatar {
+  background-color: var(--pf-tok);
+  color: var(--pf-tok-contraste);
+}
+/* status como rotulo curto com ponto na cor do estado; o texto fica na cor do componente */
+.pf-Card-topo .t-Badge {
+  --pf-card-ponto: var(--ut-component-text-muted-color);
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ut-component-text-default-color);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.pf-Card-topo .t-Badge--success { --pf-card-ponto: var(--ut-palette-success); }
+.pf-Card-topo .t-Badge--info    { --pf-card-ponto: var(--ut-palette-info); }
+.pf-Card-topo .t-Badge--warning { --pf-card-ponto: var(--ut-palette-warning); }
+.pf-Card-topo .t-Badge--danger  { --pf-card-ponto: var(--ut-palette-danger); }
+.pf-Card-topo .t-Badge-value { display: inline-flex; align-items: center; gap: .5rem; }
+.pf-Card-topo .t-Badge-value::before {
+  content: "";
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background-color: var(--pf-card-ponto);
+}
+
+.pf-Card-titulo {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--ut-component-text-title-color);
+}
+.pf-Card-titulo a {
+  color: var(--ut-component-text-title-color);
+  text-decoration: none;
+}
+.pf-Card-titulo a:hover,
+.pf-Card-titulo a:focus-visible { text-decoration: underline; }
+.pf-Card-frase {
+  flex: 1;
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.5;
+  color: var(--ut-component-text-default-color);
+}
+.pf-Card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-Card-tags .t-Badge {
+  border-radius: 999px;
+  border: 1px solid var(--ut-component-border-color);
+  background-color: var(--ut-component-highlight-background-color);
+  color: var(--ut-component-text-default-color);
+}
+.pf-Card-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--ut-component-border-color);
+}
+
+/* selecao opcional: o botao so existe quando o app informa o rotulo */
+.pf-Card-rodape { margin-top: .25rem; }
+.pf-Card-rodape .pf-Card-selecao { width: 100%; justify-content: center; }
+.pf-Card-selecao .t-Icon { display: none; }
+.pf-Card.is-selecionado .pf-Card-selecao .t-Icon { display: inline-block; margin-inline-end: .375rem; }
+.pf-Card.is-selecionado {
+  border-color: var(--ut-palette-primary);
+  box-shadow: 0 0 0 1px var(--ut-palette-primary), var(--ut-shadow-md);
+}
+.pf-Card:has(.pf-Card-selecao) { cursor: pointer; }

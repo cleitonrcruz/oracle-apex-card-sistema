@@ -1,0 +1,82 @@
+{if APEX$IS_LAZY_LOADING/}
+  <div class="pf-Card pf-Card--carregando"></div>
+{else/}
+  <article class="pf-Card pf-Card--{case COR/}{when success/}success{when info/}info{when warning/}warning{when danger/}danger{when generic/}generic{otherwise/}primary{endcase/}{if SELECIONADO/} is-selecionado{endif/}" data-chave="#CHAVE#">
+    <div class="pf-Card-topo">
+      {with/}
+        TYPE:=icon
+        ICON:=fa #ICONE#
+        SHAPE:=t-Avatar--rounded
+        SIZE:=t-Avatar--md
+      {apply THEME$AVATAR/}
+      {if ?STATUS/}
+      {case STATUS_ESTADO/}
+      {when success/}
+      {with/}
+        LABEL:=#ROTULO_STATUS#
+        VALUE:=#STATUS#
+        STATE:=success
+        STYLE:=t-Badge--subtle
+        SHAPE:=t-Badge--rounded
+        SIZE:=t-Badge--sm
+      {apply THEME$BADGE/}
+      {when info/}
+      {with/}
+        LABEL:=#ROTULO_STATUS#
+        VALUE:=#STATUS#
+        STATE:=info
+        STYLE:=t-Badge--subtle
+        SHAPE:=t-Badge--rounded
+        SIZE:=t-Badge--sm
+      {apply THEME$BADGE/}
+      {when warning/}
+      {with/}
+        LABEL:=#ROTULO_STATUS#
+        VALUE:=#STATUS#
+        STATE:=warning
+        STYLE:=t-Badge--subtle
+        SHAPE:=t-Badge--rounded
+        SIZE:=t-Badge--sm
+      {apply THEME$BADGE/}
+      {when danger/}
+      {with/}
+        LABEL:=#ROTULO_STATUS#
+        VALUE:=#STATUS#
+        STATE:=danger
+        STYLE:=t-Badge--subtle
+        SHAPE:=t-Badge--rounded
+        SIZE:=t-Badge--sm
+      {apply THEME$BADGE/}
+      {otherwise/}
+      {with/}
+        LABEL:=#ROTULO_STATUS#
+        VALUE:=#STATUS#
+        STYLE:=t-Badge--subtle
+        SHAPE:=t-Badge--rounded
+        SIZE:=t-Badge--sm
+      {apply THEME$BADGE/}
+      {endcase/}
+      {endif/}
+    </div>
+    <h3 class="pf-Card-titulo">{if ?LINK_TITULO/}<a href="#LINK_TITULO#">#TITULO#</a>{else/}#TITULO#{endif/}</h3>
+    {if ?DESCRICAO/}<p class="pf-Card-frase">#DESCRICAO#</p>{endif/}
+    {if ?TAGS/}
+      <ul class="pf-Card-tags">{loop "|" TAGS/}<li class="t-Badge t-Badge--outline t-Badge--sm t-Badge--rounded"><span class="t-Badge-value">&APEX$ITEM.</span></li>{endloop/}</ul>
+    {endif/}
+    {if ?LINK_PRIMARIO/}
+    <div class="pf-Card-acoes">
+      <a class="t-Button t-Button--hot t-Button--small" href="#LINK_PRIMARIO#" target="_blank" rel="noopener">#ROTULO_PRIMARIO#</a>
+      {if ?LINK_SECUNDARIO/}<a class="t-Button t-Button--small" href="#LINK_SECUNDARIO#" target="_blank" rel="noopener">#ROTULO_SECUNDARIO#</a>{endif/}
+    </div>
+    {else/}{if ?LINK_SECUNDARIO/}
+    <div class="pf-Card-acoes">
+      <a class="t-Button t-Button--small" href="#LINK_SECUNDARIO#" target="_blank" rel="noopener">#ROTULO_SECUNDARIO#</a>
+    </div>
+    {endif/}{endif/}
+    {if ?ROTULO_SELECAO/}
+    <div class="pf-Card-rodape">
+      <button type="button" class="t-Button t-Button--small pf-Card-selecao js-cardSistema-selecao" data-rotulo="#ROTULO_SELECAO#" data-rotulo-selecionado="#ROTULO_SELECIONADO#"><span class="t-Icon fa fa-check" aria-hidden="true"></span><span class="t-Button-label">{if SELECIONADO/}{if ?ROTULO_SELECIONADO/}#ROTULO_SELECIONADO#{else/}#ROTULO_SELECAO#{endif/}{else/}#ROTULO_SELECAO#{endif/}</span><span class="u-VisuallyHidden">: #TITULO#</span></button>
+    </div>
+    {endif/}
+  </article>
+{endif/}
