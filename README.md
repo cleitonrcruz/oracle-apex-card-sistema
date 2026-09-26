@@ -4,15 +4,15 @@
 ![Template Component](https://img.shields.io/badge/plug--in-Template%20Component-1f4e79)
 ![MIT](https://img.shields.io/badge/license-MIT-green)
 
-<p align="justify">Template Component para listar sistemas, projetos ou produtos em cards: ícone, selo de status, título com link, frase, tags, até dois botões e uma seleção opcional. A aparência vem das variáveis do Universal Theme, então o card acompanha o theme style, claro ou escuro, sem CSS do app.</p>
+<p align="justify">Template Component para listar sistemas, projetos ou produtos em cards: ícone, selo de status, título com link, frase, tags, até dois botões e uma seleção opcional, em grade ou em carrossel. A aparência vem das variáveis do Universal Theme, então o card acompanha o theme style, claro ou escuro, sem CSS do app.</p>
 
 <p align="center">
-  <img src="card-sistema.gif" width="720" alt="Demonstração do Card de Sistema: três cards com ícone, selo de status, tags e botões; a seleção passa de um card para outro pelo botão e pelo clique no card, e o evento aparece embaixo; depois o tema troca para o escuro">
+  <img src="card-sistema.gif" width="720" alt="Demonstração do Card de Sistema em carrossel: três cards por vez com ícone, selo de status, tags e botões; a seleção passa de um card para outro pelo botão e pelo clique no card, as setas avançam a faixa, o evento aparece embaixo e o tema troca para o escuro">
 </p>
 
 ## O que faz
 
-- Monta uma grade de cards a partir de uma consulta SQL: uma linha, um card. A grade se ajusta à largura da região e não passa dela em contêiner estreito.
+- Monta os cards a partir de uma consulta SQL: uma linha, um card. Em grade, eles quebram em linhas e se ajustam à largura da região; em carrossel, formam uma faixa que rola para o lado, com encaixe por card e setas que só aparecem quando há mais cards do que cabem.
 - Selo de status com ponto na cor do estado e ícone na cor do token escolhido, os dois lidos das variáveis `--ut-palette-*` do tema.
 - Seleção opcional: com o rótulo de seleção preenchido, o card ganha um botão no rodapé. O clique no botão, ou no card fora dos links, marca o card, troca o texto do botão e dispara o evento `cardsistemaselecao` na região.
 - Textos com escape de HTML. Cor e estado passam por uma lista fechada: valor fora dela cai no padrão, sem virar classe.
@@ -76,6 +76,14 @@ select s.nome            titulo,
 | Rótulo do botão selecionado | | Texto do botão no card selecionado. Vazio: repete o rótulo de seleção. |
 | Selecionado | | Marca o card como selecionado ao carregar. Vazio, `N`, `F`, `0` e `false` contam como não. |
 
+**3. Escolha o layout**, também em **Region > Attributes**. Estes três valem para a região inteira, não saem de coluna:
+
+| Atributo | Padrão | Para que serve |
+|---|---|---|
+| Layout | Grade | Grade: os cards quebram em linhas. Carrossel: uma faixa que rola para o lado, três cards por vez (dois em tela média e um no celular, com a ponta do próximo aparecendo). |
+| Rótulo da seta anterior | Anterior | Nome que o leitor de tela lê na seta que volta. Aceita `&APP_TEXT$NOME_DA_MENSAGEM.`, com a text message marcada **Used in JavaScript**: a região é redesenhada no navegador e o rótulo é resolvido lá. O atributo também é traduzível pelo repositório de tradução do app. |
+| Rótulo da seta próxima | Próximo | Nome que o leitor de tela lê na seta que avança. Mesmas regras. |
+
 <p align="justify">O componente também aparece como <b>Single</b>, para mostrar um card só, fora da grade; a seleção funciona igual.</p>
 
 ### Evento de seleção
@@ -91,10 +99,11 @@ apex.jQuery("#sistemas").on("cardsistemaselecao", function (evento, dados) {
 
 ### Aparência
 
-<p align="justify">As classes começam com <code>pf-Card</code>. As regras usam só classes, sem id nem <code>!important</code>: a maioria tem uma classe, e hover e seleção têm duas. Para sobrescrever qualquer uma, prefixe com o Static ID da região, como no exemplo. A largura mínima de cada coluna fica em <code>--pf-card-min</code> (17rem); a superfície, a borda, o texto e a sombra vêm de <code>--ut-component-*</code> e <code>--ut-shadow-*</code>.</p>
+<p align="justify">As classes começam com <code>pf-</code>: <code>pf-Card</code> nos cards e na grade, <code>pf-Carrossel</code> na navegação do carrossel. As regras usam só classes, sem id nem <code>!important</code>: a maioria tem uma classe, e hover e seleção têm duas. Para sobrescrever qualquer uma, prefixe com o Static ID da região, como no exemplo. A largura mínima de cada coluna da grade fica em <code>--pf-card-min</code> (17rem), o espaço entre os cards em <code>--pf-card-gap</code> (1rem) e quantos cards o carrossel mostra por vez, acima do celular, em <code>--pf-carrossel-visiveis</code> (no celular é sempre um, com a ponta do próximo aparecendo); as setas usam <code>pf-Carrossel-nav</code> e <code>pf-Carrossel-seta</code>. A superfície, a borda, o texto e a sombra vêm de <code>--ut-component-*</code> e <code>--ut-shadow-*</code>.</p>
 
 ```css
 #sistemas .pf-CardGrid { --pf-card-min: 22rem; }
+#sistemas .pf-CardGrid--carrossel { --pf-carrossel-visiveis: 2; }
 #sistemas .pf-Card.is-selecionado {
   border-color: var(--ut-palette-success);
   box-shadow: 0 0 0 1px var(--ut-palette-success), var(--ut-shadow-md);

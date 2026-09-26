@@ -4,9 +4,10 @@
 
 .pf-CardGrid {
   --pf-card-min: 17rem;
+  --pf-card-gap: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--pf-card-min)), 1fr));
-  gap: 1rem;
+  gap: var(--pf-card-gap);
 }
 .pf-CardGrid-item { min-width: 0; }
 
@@ -126,3 +127,50 @@
   box-shadow: 0 0 0 1px var(--ut-palette-primary), var(--ut-shadow-md);
 }
 .pf-Card:has(.pf-Card-selecao) { cursor: pointer; }
+
+/* Layout "Carrossel": faixa que rola para o lado com encaixe por card; quantos cabem por vez sai de
+   --pf-carrossel-visiveis. O padding da faixa deixa espaco para o contorno e a sombra do card selecionado */
+.pf-CardGrid--carrossel {
+  --pf-carrossel-visiveis: 3;
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - (var(--pf-carrossel-visiveis) - 1) * var(--pf-card-gap)) / var(--pf-carrossel-visiveis));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  margin: -.25rem -.25rem -.75rem;
+  padding: .25rem .25rem .75rem;
+  scroll-padding-inline: .25rem;
+}
+.pf-CardGrid--carrossel::-webkit-scrollbar { display: none; }
+.pf-CardGrid--carrossel > .pf-CardGrid-item { scroll-snap-align: start; }
+@media (max-width: 63.9375rem) {
+  .pf-CardGrid--carrossel { --pf-carrossel-visiveis: 2; }
+}
+/* no celular um card por vez, com a ponta do proximo aparecendo */
+@media (max-width: 47.9375rem) {
+  .pf-CardGrid--carrossel { grid-auto-columns: 86%; }
+}
+.pf-Carrossel-nav {
+  display: none;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+.pf-Carrossel-nav.is-ativo { display: flex; }
+.pf-Carrossel-seta {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--ut-component-border-color);
+  border-radius: 50%;
+  background-color: var(--ut-component-background-color);
+  color: var(--ut-component-text-default-color);
+  cursor: pointer;
+}
+.pf-Carrossel-seta:hover:not(:disabled) { border-color: var(--ut-palette-primary); color: var(--ut-palette-primary); }
+.pf-Carrossel-seta:focus-visible { outline: 2px solid var(--ut-palette-primary); outline-offset: 2px; }
+.pf-Carrossel-seta:disabled { opacity: .4; cursor: default; }
